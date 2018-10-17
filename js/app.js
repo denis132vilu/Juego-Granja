@@ -1,10 +1,10 @@
 document.addEventListener("keydown", movimiento);
 var canvas = document.getElementById('fondo');
 var lapiz = canvas.getContext('2d');
-const DIMENSION = 80;
+var matriz = new Array(6);
 var x = random(0, 5) * 80;
 var y = random(0, 5) * 80;
-var matriz = new Array(6);
+const DIMENSION = 80;
 
 var fondo = {
     url: './imagenes/tile.png',
@@ -34,13 +34,14 @@ var llave = {
     url: './imagenes/llave.png',
     imagen: Image,
     cargaOK: false
-}
+};
 
 fondo.imagen = new Image();
 vaca.imagen = new Image();
 cerdo.imagen = new Image();
 cuchillo.imagen = new Image();
 llave.imagen = new Image();
+
 fondo.imagen.src = fondo.url;
 vaca.imagen.src = vaca.url;
 cerdo.imagen.src = cerdo.url;
@@ -54,17 +55,14 @@ fondo.imagen.addEventListener("load", function() { //Agregar evento de cuando se
 
 vaca.imagen.addEventListener("load", function() {
     vaca.cargaOK = true;
-    // dibujar();
 });
 
 cerdo.imagen.addEventListener("load", function() {
     cerdo.cargaOK = true;
-    // dibujar();
 });
 
 cuchillo.imagen.addEventListener("load", function() {
     cuchillo.cargaOK = true;
-    // dibujar();
 });
 
 llave.imagen.addEventListener("load", function() {
@@ -81,20 +79,11 @@ function dibujar() {
     if (fondo.cargaOK) {
         lapiz.drawImage(fondo.imagen, 0, 0);
     }
-    // if (vaca.cargaOK) {
-
-    // }
-    // if (cerdo.cargaOK) {
-
-    // }
-    // if (cuchillo.cargaOK) {
-    //     // lapiz.drawImage(cuchillo.imagen, random(0,5) * 80, random(0,5) * 80);
-    // }
     dibujarMatriz();
     if (llave.cargaOK) {
         lapiz.drawImage(llave.imagen, x, y);
     }
-}
+};
 
 var tecla = {
     LEFT: 37,
@@ -102,7 +91,7 @@ var tecla = {
     RIGHT: 39,
     DOWN: 40,
     ENTER: 13
-}
+};
 
 function movimiento(evento) {
     switch (evento.keyCode) {
@@ -111,7 +100,6 @@ function movimiento(evento) {
                 x = x - DIMENSION;
             }
             dibujar();
-            // lapiz.drawImage(llave.imagen, x, y);
             break;
 
         case tecla.UP:
@@ -119,7 +107,6 @@ function movimiento(evento) {
                 y = y - DIMENSION;
             }
             dibujar();
-            // lapiz.drawImage(llave.imagen, x, y);
             break;
 
         case tecla.RIGHT:
@@ -127,7 +114,6 @@ function movimiento(evento) {
                 x = x + DIMENSION;
             }
             dibujar();
-            // lapiz.drawImage(llave.imagen, x, y);
             break;
 
         case tecla.DOWN:
@@ -135,12 +121,12 @@ function movimiento(evento) {
                 y = y + DIMENSION;
             }
             dibujar();
-            // lapiz.drawImage(llave.imagen, x, y);
             break;
 
         case tecla.ENTER:
             console.log(matriz);
-            alert(random(1, 10));
+
+            break;
     }
 }
 
@@ -149,14 +135,13 @@ function random(min, max) {
 }
 
 function iniciarMatriz() {
-
     for (var i = 0; i < matriz.length; i++) {
         matriz[i] = new Array(6);
         for (var j = 0; j < matriz.length; j++) {
             matriz[i][j] = 'x';
         }
     }
-}
+};
 
 function inicializarVacas() {
     var numero = random(0, 5);
@@ -164,28 +149,36 @@ function inicializarVacas() {
         var row = random(0, 5);
         var col = random(0, 5);
         if (matriz[row][col] == 'x') {
-            matriz[row][col] = 'v';
+            if (i == 0) {
+                matriz[row][col] = 'vs';
+            } else {
+                matriz[row][col] = 'vm';
+            }
         }
     }
-}
+};
 
 function inicializarCerdos() {
     var numero = random(0, 5);
     for (var i = 0; i <= numero; i++) {
-        var row = 0 + random(0, 5);
-        var col = 0 + random(0, 5);
+        var row = random(0, 5);
+        var col = random(0, 5);
         if (matriz[row][col] == 'x') {
-            matriz[row][col] = 'c';
+            if (i == 0) {
+                matriz[row][col] = 'cs';
+            } else {
+                matriz[row][col] = 'cm';
+            }
         }
     }
-}
+};
 
 function dibujarMatriz() {
     for (var i = 0; i < matriz.length; i++) {
         for (var j = 0; j < matriz.length; j++) {
-            if (matriz[i][j] == 'v') {
+            if (matriz[i][j] == 'vm' || matriz[i][j] == 'vs') {
                 lapiz.drawImage(vaca.imagen, i * DIMENSION, j * DIMENSION);
-            } else if (matriz[i][j] == 'c') {
+            } else if (matriz[i][j] == 'cm' || matriz[i][j] == 'cs') {
                 lapiz.drawImage(cerdo.imagen, i * DIMENSION, j * DIMENSION);
             }
         }
