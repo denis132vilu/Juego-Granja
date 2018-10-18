@@ -2,9 +2,11 @@ document.addEventListener("keydown", movimiento);
 var canvas = document.getElementById('fondo');
 var lapiz = canvas.getContext('2d');
 var matriz = new Array(6);
-var x = random(0, 5) * 80;
-var y = random(0, 5) * 80;
 const DIMENSION = 80;
+var x = random(0, 5) * DIMENSION;
+var y = random(0, 5) * DIMENSION;
+var incorrect = 3;
+var cont = false;
 
 var fondo = {
     url: './imagenes/tile.png',
@@ -53,17 +55,17 @@ fondo.imagen.addEventListener("load", function() { //Agregar evento de cuando se
     dibujar();
 });
 
-vaca.imagen.addEventListener("load", function() {
-    vaca.cargaOK = true;
-});
+// vaca.imagen.addEventListener("load", function() {
+//     vaca.cargaOK = true;
+// });
 
-cerdo.imagen.addEventListener("load", function() {
-    cerdo.cargaOK = true;
-});
+// cerdo.imagen.addEventListener("load", function() {
+//     cerdo.cargaOK = true;
+// });
 
-cuchillo.imagen.addEventListener("load", function() {
-    cuchillo.cargaOK = true;
-});
+// cuchillo.imagen.addEventListener("load", function() {
+//     cuchillo.cargaOK = true;
+// });
 
 llave.imagen.addEventListener("load", function() {
     llave.cargaOK = true;
@@ -125,6 +127,36 @@ function movimiento(evento) {
 
         case tecla.ENTER:
             console.log(matriz);
+            if (matriz[x / DIMENSION][y / DIMENSION] == 'x') {
+                alert("No hay ningún animal.");
+            } else {
+                if (matriz[x / DIMENSION][y / DIMENSION] == 'vs' || matriz[x / DIMENSION][y / DIMENSION] == 'cs') {
+                    if (cont) {
+                        alert("¡Has encontrado los dos animales sanos exitosamente!");
+                        location.reload();
+                    } else {
+                        if (matriz[x / DIMENSION][y / DIMENSION] == 'vs') {
+                            alert("Has encontrado la vaca sana, te falta el cerdo.");
+                            matriz[y / DIMENSION][y / DIMENSION] == 'vaca sana';
+                        } else {
+                            alert("Has encontrado el cerdo sano, te falta la vaca.");
+                            matriz[x / DIMENSION][y / DIMENSION] == 'cerdo sano';
+                        }
+                        cont = true;
+                    }
+                } else {
+                    incorrect--;
+                    if (incorrect == 0) {
+                        alert("¡Has perdido!");
+                        location.reload();
+                    } else {
+                        alert("Te equivocaste, te quedan " + incorrect.toString() + " oportunidades.");
+                    }
+                }
+            }
+            if (matriz[x / DIMENSION][y / DIMENSION] == 'vaca sana' || matriz[x / DIMENSION][y / DIMENSION] == 'cerdo sano') {
+                alert("Ya has presionado aquí anteriormente.");
+            }
 
             break;
     }
