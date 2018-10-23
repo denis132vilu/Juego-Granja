@@ -127,37 +127,7 @@ function movimiento(evento) {
 
         case tecla.ENTER:
             console.log(matriz);
-            if (matriz[x / DIMENSION][y / DIMENSION] == 'x') {
-                alert("No hay ningún animal.");
-            } else {
-                if (matriz[x / DIMENSION][y / DIMENSION] == 'vs' || matriz[x / DIMENSION][y / DIMENSION] == 'cs') {
-                    if (cont) {
-                        alert("¡Has encontrado los dos animales sanos exitosamente!");
-                        location.reload();
-                    } else {
-                        if (matriz[x / DIMENSION][y / DIMENSION] == 'vs') {
-                            alert("Has encontrado la vaca sana, te falta el cerdo.");
-                            matriz[y / DIMENSION][y / DIMENSION] == 'vaca sana';
-                        } else {
-                            alert("Has encontrado el cerdo sano, te falta la vaca.");
-                            matriz[x / DIMENSION][y / DIMENSION] == 'cerdo sano';
-                        }
-                        cont = true;
-                    }
-                } else {
-                    incorrect--;
-                    if (incorrect == 0) {
-                        alert("¡Has perdido!");
-                        location.reload();
-                    } else {
-                        alert("Te equivocaste, te quedan " + incorrect.toString() + " oportunidades.");
-                    }
-                }
-            }
-            if (matriz[x / DIMENSION][y / DIMENSION] == 'vaca sana' || matriz[x / DIMENSION][y / DIMENSION] == 'cerdo sano') {
-                alert("Ya has presionado aquí anteriormente.");
-            }
-
+            verificar();
             break;
     }
 }
@@ -176,7 +146,7 @@ function iniciarMatriz() {
 };
 
 function inicializarVacas() {
-    var numero = random(0, 5);
+    var numero = random(1, 6);
     for (var i = 0; i <= numero; i++) {
         var row = random(0, 5);
         var col = random(0, 5);
@@ -191,7 +161,7 @@ function inicializarVacas() {
 };
 
 function inicializarCerdos() {
-    var numero = random(0, 5);
+    var numero = random(1, 6);
     for (var i = 0; i <= numero; i++) {
         var row = random(0, 5);
         var col = random(0, 5);
@@ -215,4 +185,37 @@ function dibujarMatriz() {
             }
         }
     }
+}
+
+function verificar() {
+    if (matriz[x / DIMENSION][y / DIMENSION] == 'x') {
+        alert("No hay ningún animal.");
+    } else if (matriz[x / DIMENSION][y / DIMENSION] == 'vaca sana' || matriz[x / DIMENSION][y / DIMENSION] == 'cerdo sano') {
+        alert("Ya has presionado aquí anteriormente.");
+    } else {
+        if (matriz[x / DIMENSION][y / DIMENSION] == 'vs' || matriz[x / DIMENSION][y / DIMENSION] == 'cs') {
+            if (cont) {
+                alert("¡Has encontrado los dos animales sanos exitosamente!");
+                location.reload();
+            } else {
+                if (matriz[x / DIMENSION][y / DIMENSION] == 'vs') {
+                    alert("Has encontrado la vaca sana, te falta el cerdo.");
+                    matriz[y / DIMENSION][y / DIMENSION] = 'vaca sana';
+                } else {
+                    alert("Has encontrado el cerdo sano, te falta la vaca.");
+                    matriz[x / DIMENSION][y / DIMENSION] = 'cerdo sano';
+                }
+                cont = true;
+            }
+        } else {
+            incorrect--;
+            if (incorrect == 0) {
+                alert("¡Has perdido!");
+                location.reload();
+            } else {
+                alert("Te equivocaste, te quedan " + incorrect.toString() + " oportunidades.");
+            }
+        }
+    }
+
 }
