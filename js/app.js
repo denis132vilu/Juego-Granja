@@ -5,7 +5,7 @@ var matriz = new Array(6);
 const DIMENSION = 80;
 var x = random(0, 5) * DIMENSION;
 var y = random(0, 5) * DIMENSION;
-var incorrect = 3;
+var vidas = 3;
 var cont = false;
 
 var fondo = {
@@ -208,12 +208,12 @@ function verificar() {
                 cont = true;
             }
         } else {
-            incorrect--;
-            if (incorrect == 0) {
+            vidas--;
+            if (vidas == 0) {
                 alert("¡Has perdido!");
                 location.reload();
             } else {
-                alert("Te equivocaste, te quedan " + incorrect.toString() + " oportunidades.");
+                alert("Te equivocaste, te quedan " + vidas.toString() + " oportunidades.");
             }
         }
     }
