@@ -6,7 +6,6 @@ const DIMENSION = 80;
 var x = random(0, 5) * DIMENSION;
 var y = random(0, 5) * DIMENSION;
 var incorrect = 3;
-var cont = false;
 
 var fondo = {
     url: './imagenes/tile.png',
@@ -146,7 +145,7 @@ function iniciarMatriz() {
 };
 
 function inicializarVacas() {
-    var numero = random(1, 6);
+    var numero = random(0, 6);
     for (var i = 0; i <= numero; i++) {
         var row = random(0, 5);
         var col = random(0, 5);
@@ -161,7 +160,7 @@ function inicializarVacas() {
 };
 
 function inicializarCerdos() {
-    var numero = random(1, 6);
+    var numero = random(0, 6);
     for (var i = 0; i <= numero; i++) {
         var row = random(0, 5);
         var col = random(0, 5);
@@ -179,34 +178,26 @@ function dibujarMatriz() {
     for (var i = 0; i < matriz.length; i++) {
         for (var j = 0; j < matriz.length; j++) {
             if (matriz[i][j] == 'vm' || matriz[i][j] == 'vs') {
-                lapiz.drawImage(vaca.imagen, i * DIMENSION, j * DIMENSION);
+                lapiz.drawImage(vaca.imagen, j * DIMENSION, i * DIMENSION);
             } else if (matriz[i][j] == 'cm' || matriz[i][j] == 'cs') {
-                lapiz.drawImage(cerdo.imagen, i * DIMENSION, j * DIMENSION);
+                lapiz.drawImage(cerdo.imagen, j * DIMENSION, i * DIMENSION);
             }
         }
     }
 }
 
 function verificar() {
-    if (matriz[x / DIMENSION][y / DIMENSION] == 'x') {
+    let valorMatriz = matriz[y / DIMENSION][x / DIMENSION];
+    if (valorMatriz == 'x') {
         alert("No hay ningún animal.");
-    } else if (matriz[x / DIMENSION][y / DIMENSION] == 'vaca sana' || matriz[x / DIMENSION][y / DIMENSION] == 'cerdo sano') {
-        alert("Ya has presionado aquí anteriormente.");
     } else {
-        if (matriz[x / DIMENSION][y / DIMENSION] == 'vs' || matriz[x / DIMENSION][y / DIMENSION] == 'cs') {
-            if (cont) {
-                alert("¡Has encontrado los dos animales sanos exitosamente!");
-                location.reload();
+        if (valorMatriz == 'vs' || valorMatriz == 'cs') {
+            if (incorrect == 3) {
+                alert("¡¡¡Felicidades!!!\nJuego perfecto.\n¡Has encontrado al animal sano exitosamente!");
             } else {
-                if (matriz[x / DIMENSION][y / DIMENSION] == 'vs') {
-                    alert("Has encontrado la vaca sana, te falta el cerdo.");
-                    matriz[y / DIMENSION][y / DIMENSION] = 'vaca sana';
-                } else {
-                    alert("Has encontrado el cerdo sano, te falta la vaca.");
-                    matriz[x / DIMENSION][y / DIMENSION] = 'cerdo sano';
-                }
-                cont = true;
+                alert("¡Has encontrado al animal sano exitosamente!");
             }
+            location.reload();
         } else {
             incorrect--;
             if (incorrect == 0) {
