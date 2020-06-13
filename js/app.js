@@ -192,8 +192,8 @@ function verificar() {
         alert("No hay ningún animal.");
     } else {
         if (valorMatriz == 'vs' || valorMatriz == 'cs') {
-            if (incorrect == 3) {
-                alert("¡¡¡Felicidades!!!\nJuego perfecto.\n¡Has encontrado al animal sano exitosamente!");
+            if (vidas == 3) {
+                alert("¡Felicidades! Juego perfecto. ¡Has encontrado al animal sano exitosamente!");
             } else {
                 alert("¡Has encontrado al animal sano exitosamente!");
             }
